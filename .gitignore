@@ -1,0 +1,12 @@
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+allure-results
+allure-report
+.allure
+.DS-Store
+tests/pw_11_extended.spec.js-snapshots
