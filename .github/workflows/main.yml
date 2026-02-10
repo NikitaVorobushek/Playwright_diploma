@@ -1,0 +1,38 @@
+name: qa guru diploma nv
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  pwndv:
+    runs-on: ubuntu-latest
+    steps:
+        #делаю чекаут кода
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v6.2.0
+      - name: Установить все пакеты из package.json
+        run: npm ci
+      - name: Установить pw
+        run: npx playwright install --with-deps
+      - name: Запускаем тесты
+        run: npm t
+        
+      - name: Сгенерировать allure 3 отчет в один файл
+        run: npx allure awesome ./allure-results --single-file
+        continue-on-error: true
+        if: always()
+        
+        #сохраняю отчет pw/allure
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v6.0.0
+        continue-on-error: true
+        if: always()
+        with:
+          name: allure-results
+          path: allure-results
+          retention-days: 5
+          
