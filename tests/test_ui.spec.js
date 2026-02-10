@@ -1,18 +1,44 @@
 import { test, expect} from '@playwright/test';
 import { App } from './src/pages/app.page';
 
+const url = 'http://uitestingplayground.com/' // UI tests url
 
-const url1 = 'http://uitestingplayground.com/' // UI tests url
-
-test('Click element test', async ({ page }) => {
+test('Alert test', async ({ page }) => {
   const app = new App(page);
-  let btnColor;
+  await app.main.open(url);
 
-  await app.main.open(url1);
-  await app.home.goToClickTest();
-  await app.click.clickButtonTest();
+  await app.main.goToAlertsTest();
+  await app.alert.goTest();
+});
 
-  
-  await page.getByRole('button', { name: 'Button That Ignores DOM Click' }).click();
-  await expect(page.getByRole('button', { name: 'Button That Ignores DOM Click' })).toBeVisible();
+test('Text input test', async ({ page }) => {
+  const app = new App(page);
+  await app.main.open(url);
+
+  await app.main.goToTextInputTest();
+  await app.texinp.goTest();
+})
+
+test('Simple autorization test', async ({ page }) => {
+  const app = new App(page);
+  await app.main.open(url);
+
+  await app.main.goToSampleAppTest();
+  await app.autoriz.goTest();
+})
+
+test('Animated Button test', async ({ page }) => {
+  const app = new App(page);
+  await app.main.open(url);
+
+  await app.main.goToAnimatedBtnTest();
+  await app.animated.goTest();
+})
+
+test('Progress Bar test', async ({ page }) => {
+  const app = new App(page);
+  await app.main.open(url);
+
+  await app.main.goToProgressBarTest();
+  await app.progressbar.goTest();
 });
