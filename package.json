@@ -7,7 +7,8 @@
     "test": "npx playwright test",
     "report": "npx playwright show-report",
     "recorder": "npx playwright codegen",
-    "ui": "npx playwright test --ui"
+    "ui": "npx playwright test --ui",
+    "allure": "npx allure awesome ./allure-results --single-file"
   },
   "repository": {
     "type": "git",
