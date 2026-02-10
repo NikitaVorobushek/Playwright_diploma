@@ -42,7 +42,7 @@ export class ProgressBarPage {
             const result = resultMatch ? parseFloat(resultMatch[1]) : null;
             const duration = durationMatch ? parseFloat(durationMatch[1]) : null;
 
-            console.log({ result, duration });
+            //console.log({ result, duration });
             await expect(this.resultContent).toHaveText(`Result: ${result}, duration: ${duration}`);
 
         })

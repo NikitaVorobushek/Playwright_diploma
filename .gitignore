@@ -9,4 +9,3 @@ allure-results
 allure-report
 .allure
 .DS-Store
-tests/pw_11_extended.spec.js-snapshots
