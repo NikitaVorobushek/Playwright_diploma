@@ -35,9 +35,9 @@ const statusText = failed === 0 ? 'success' : 'failure';
 let text = `Прогон тестов завершен
 Статус: ${statusText}
 📊 Всего пройдено: ${total}
-✅ Успешные: ${passed}
-❌ Провалено: ${failed}
-⚠️ Пропущено: ${skipped}`;
+😁 Успешные: ${passed}
+😡 Провалено: ${failed}
+👻 Пропущено: ${skipped}`;
 
 if (reportLink) text += `\n\n📎 <a href="${reportLink}">Allure отчёт</a>`;
 if (runLink) text += ` | <a href="${runLink}">Open run</a>`;
