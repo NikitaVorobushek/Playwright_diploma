@@ -8,7 +8,8 @@
     "report": "npx playwright show-report",
     "recorder": "npx playwright codegen",
     "ui": "npx playwright test --ui",
-    "allure": "npx allure awesome ./allure-results --single-file"
+    "allure": "npx allure awesome ./allure-results --single-file",
+    "deploy-history":"node scripts/telegram-summary.js"
   },
   "repository": {
     "type": "git",

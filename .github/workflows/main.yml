@@ -8,12 +8,17 @@ on:
 jobs:
   pwndv:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
     steps:
         #делаю чекаут кода
       - name: Checkout
         uses: actions/checkout@v6.0.1
       - name: Setup Node.js environment
         uses: actions/setup-node@v6.2.0
+        with:
+          node-version: lts/*
       - name: Установить все пакеты из package.json
         run: npm ci
       - name: Установить pw
@@ -44,7 +49,7 @@ jobs:
         continue-on-error: true
         run: npx allure awesome ./allure-results --single-file
         
-        #сохраняю отчет pw/allure
+        #сохраняю артефакты
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v6.0.0
         if: always()
@@ -57,7 +62,7 @@ jobs:
             playwright-report
           retention-days: 10
 
-        #отправка отчета в телегу
+        #отправка отчета в телегу2
       - name: Send Allure report to Telegram
         if: always()
         env:
@@ -70,6 +75,8 @@ jobs:
               -F document=@allure-report/index.html \
               -F caption="Allure report (single-file)"
           fi
+
+        #сохраняю историю
       - name: Send test summary to Telegram
         if: always()
         continue-on-error: true
@@ -78,9 +85,9 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           REPORT_LINK: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
           RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: node notifications/telegram-script.js
+        run: node scripts/telegram-summary.js
         
-        #пушим отчет на страницу
+        #пушу отчет на страницу
       - name: Deploy Allure report to GitHub Pages
         if: always() && ((github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || github.event_name == 'workflow_dispatch')
         continue-on-error: true
@@ -89,4 +96,3 @@ jobs:
           github_token: ${{ secrets.MY_TOKEN }}
           publish_dir: allure-report
           destination_dir: .
-
