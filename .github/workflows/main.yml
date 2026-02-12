@@ -70,6 +70,7 @@ jobs:
               -F document=@allure-report/index.html \
               -F caption="Allure report (single-file)"
           fi
+          
       - name: Send test summary to Telegram
         if: always()
         continue-on-error: true
@@ -78,7 +79,7 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           REPORT_LINK: https://.github.com/${{ github.repository_owner }}/${{ github.event.repository.name }}/
           RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: node notifications/telegram.js
+        run: node scripts/telegram-summary.js
         
         #пушим отчет на страницу
       - name: Deploy Allure report to GitHub Pages
