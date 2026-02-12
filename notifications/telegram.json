@@ -1,6 +1,5 @@
 {
   "base": {
-    "logo": "404",
     "project": "PWdiplomaNV005",
     "environment": "Dev",
     "comment": "oyway",
@@ -9,13 +8,11 @@
     "allureFolder": "allure-report",
     "enableChart": true,
     "enableSuitesPublishing": true,
-    "durationFormat":"HH:mm:ss.SSS",
-    "customData": {}
+    "durationFormat":"HH:mm:ss.SSS"
   },
   "telegram": {
     "token": "8231853369:AAF_XpZpzj-bgGI5mpMsj285RUcoyWMZ8ig",
     "chat": "-5175181266",
-    "topic": "",
     "replyTo": ""
   }
 }
