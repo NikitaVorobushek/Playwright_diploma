@@ -50,17 +50,17 @@ jobs:
         run: npx allure awesome ./allure-results --single-file
 
         #скачивание отчета
-      - name: Download previous Allure report
-        uses: actions/download-artifact@v3
-        with:
-          name: allure-report
-          path: ./existing-allure-report
+      #- name: Download previous Allure report
+        #uses: actions/download-artifact@v3
+        #with:
+          #name: allure-report
+          #path: ./existing-allure-report
           
         #скопировал историю из старого отчета (если есть)
-      - name: Copy history from old report
-        run: |
-          mkdir -p ./allure-results/history || true  
-          cp -r ./existing-allure-report/history/* ./allure-results/history/ || true
+      #- name: Copy history from old report
+        #run: |
+          #mkdir -p ./allure-results/history || true  
+          #cp -r ./existing-allure-report/history/* ./allure-results/history/ || true
           
         #сохраняю артефакты
       - name: Upload a Build Artifact
@@ -72,7 +72,6 @@ jobs:
           path: |
             allure-report/index.html
             allure-results
-            allure-report
             playwright-report
           retention-days: 10
 
@@ -108,4 +107,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.MY_TOKEN }}
-          publish_dir: ./ allure-report
+          publish_dir: allure-report
+          destination_dir: .
