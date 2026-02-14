@@ -1,8 +1,8 @@
-import { existsSync, readdirSync, readFileSync } from 'fs';
-import { join } from 'path';
-import { request } from 'https';
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
 
-const resultsDir = join(process.cwd(), 'allure-results');
+const resultsDir = path.join(process.cwd(), 'allure-results');
 const token = process.env.TELEGRAM_BOT_TOKEN;
 const chatId = process.env.TELEGRAM_CHAT_ID;
 const reportLink = process.env.REPORT_LINK || '';
@@ -15,11 +15,11 @@ if (!token || !chatId) {
 
 let passed = 0, failed = 0, skipped = 0;
 
-if (existsSync(resultsDir)) {
-  const files = readdirSync(resultsDir).filter(f => f.endsWith('-result.json'));
+if (fs.existsSync(resultsDir)) {
+  const files = fs.readdirSync(resultsDir).filter(f => f.endsWith('-result.json'));
   for (const file of files) {
     try {
-      const data = JSON.parse(readFileSync(join(resultsDir, file), 'utf8'));
+      const data = JSON.parse(fs.readFileSync(path.join(resultsDir, file), 'utf8'));
       const status = (data.status || data.state || '').toLowerCase();
       if (status === 'passed') passed++;
       else if (status === 'failed' || status === 'broken') failed++;
@@ -45,7 +45,7 @@ if (runLink) text += ` | <a href="${runLink}">Open run</a>`;
 const params = new URLSearchParams({ chat_id: chatId, parse_mode: 'HTML', text });
 const body = params.toString();
 
-const req = request({
+const req = https.request({
   hostname: 'api.telegram.org',
   path: `/bot${token}/sendMessage`,
   method: 'POST',
