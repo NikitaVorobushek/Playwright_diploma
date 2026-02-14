@@ -154,7 +154,7 @@ async function sendPhotoToTelegram(token, chatId, photoUrl, caption) {
     chat_id: chatId,
     photo: photoUrl,
     caption,
-    parse_mode: 'Markdown',
+    parse_mode: 'MarkdownV2',
     disable_web_page_preview: true,
   };
   const res = await fetch(url, {
