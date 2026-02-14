@@ -1,3 +1,9 @@
+/**
+ * Sends Allure report summary to Telegram with a donut chart.
+ * Usage: node scripts/telegram-summary.js [path-to-summary.json]
+ * Config: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID env vars (required).
+ */
+
 import { readFileSync, existsSync } from 'fs';
 import { dirname, join, resolve } from 'path';
 import { fileURLToPath } from 'url';
@@ -71,7 +77,7 @@ import { buildChartUrl } from './build-chart-url.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const SUMMARY_PATH = resolve(ROOT, process.argv[2] || 'allure-report/widgets/summary.json');
+const SUMMARY_PATH = resolve(ROOT, process.argv[2] || 'allure-report/summary.json');
 
 function loadSummary(path) {
   if (!existsSync(path)) {

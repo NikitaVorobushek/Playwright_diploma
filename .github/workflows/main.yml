@@ -28,7 +28,12 @@ jobs:
           allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
           allure-token: ${{ secrets.ALLURE_TOKEN }}
           allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
-          
+        
+        #Почистил старье
+      - name: Clean previous Allure results
+        if: always()
+        run: rm -rf allure-results allure-report || true
+
         #новый прогон тестов в тестопс
       - name: Run Playwright tests
         continue-on-error: true
@@ -36,7 +41,7 @@ jobs:
           ALLURE_ENDPOINT: ${{ secrets.ALLURE_ENDPOINT }}
           ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
           ALLURE_PROJECT_ID: ${{ secrets.ALLURE_PROJECT_ID }}
-          ALLURE_RESULTS: allure-results
+          ALLURE_RESULTS: ./allure-results
           ALLURE_LAUNCH_NAME: "Playwright CI #${{ github.run_number }}"
         run: allurectl watch -- npx playwright test
         
@@ -57,9 +62,9 @@ jobs:
 
         #генерация отчета
       - name: Generate Allure report (single file)
-        run: npx allure awesome ./allure-results --single-file
-        continue-on-error: true
         if: always()
+        continue-on-error: true
+        run: npx allure awesome ./allure-results --single-file
         
         #сохраняю артефакты
       - name: Upload a Build Artifact
@@ -70,6 +75,7 @@ jobs:
           name: allure single file
           path: |
             allure-report/index.html
+            allure-report/summary.json
             allure-results
             playwright-report
 
