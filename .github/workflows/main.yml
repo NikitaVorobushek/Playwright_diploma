@@ -25,17 +25,17 @@ jobs:
         run: npx playwright install --with-deps
         
         #очистка старых прогонов и подготовка
-     # - name: Clean previous Allure results
-       # run: rm -rf allure-results allure-report
-     # - uses: allure-framework/setup-allurectl@v1
-       # with:
-         # allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
-         # allure-token: ${{ secrets.ALLURE_TOKEN }}
-         # allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
+      - name: Clean previous Allure results
+        run: rm -rf allure-results allure-report
+      - uses: allure-framework/setup-allurectl@v1
+        with:
+          allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
+          allure-token: ${{ secrets.ALLURE_TOKEN }}
+          allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
           
         #новый прогон тестов
       - name: Run Playwright tests
-        run: npx playwright test
+        run: allurectl watch -- npx playwright test
         env:
           ALLURE_ENDPOINT: ${{ secrets.ALLURE_ENDPOINT }}
           ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
@@ -46,8 +46,9 @@ jobs:
         #генерация отчета
       - name: Generate Allure report (single file)
         if: always()
-        continue-on-error: true
-        run: npx allure awesome allure-results # --single-file
+        run: allure awesome allure-results --clean -o allure-report
+          # npx allure generate allure-results
+          # npx allure awesome ./allure-results --single-file
 
         #копирую summary.json в нужный путь
       - name: Copy summary.json to core
@@ -81,24 +82,32 @@ jobs:
               -F document=@allure-report/index.html \
               -F caption="Allure report (single-file)"
           fi
-
-        #сохраняю историю
-      - name: Send summary.json to gh-pages
+          
+        #гружу в alluretestops
+      - name: Send to AllureTestops
         if: always()
-        continue-on-error: true
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          REPORT_LINK: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-          RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: node scripts/telegram-summary.js
+        run: |
+          wget https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_linux_amd64 -O allurectl
+          chmod +x allurectl
+          ./allurectl upload allure-results --endpoint https://allure.autotests.cloud --project-id ${{ secrets.ALLURE_PROJECT_ID }} --token ${{ secrets.ALLURE_TOKEN }}
+        
+        #сохраняю историю
+      # - name: Send summary.json to gh-pages
+       # if: always()
+       # continue-on-error: true
+       # env:
+       #   TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+       #   TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+       #   REPORT_LINK: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+       #   RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+       # run: node scripts/telegram-summary.js
         
         #пушу отчет на страницу
-      - name: Deploy Allure report to GitHub Pages
-        if: always() && ((github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || github.event_name == 'workflow_dispatch')
-        continue-on-error: true
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.MY_TOKEN }}
-          publish_dir: root
-          destination_dir: .
+     # - name: Deploy Allure report to GitHub Pages
+      #  if: always() && ((github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')) || github.event_name == 'workflow_dispatch')
+       # continue-on-error: true
+       # uses: peaceiris/actions-gh-pages@v4
+       # with:
+        #  github_token: ${{ secrets.MY_TOKEN }}
+        #  publish_dir: root
+        #  destination_dir: .
