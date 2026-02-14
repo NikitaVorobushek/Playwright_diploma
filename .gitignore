@@ -8,6 +8,7 @@ node_modules/
 allure-results
 allure-report
 .allure
+/notifications
 .DS-Store
 /.vscode
 main.yml
