@@ -17,7 +17,7 @@
 ---
 
 ## 🛠 Технологический стек
-<img src="docs/images/jsIcon.gif" alt="JavaScript" width="40" height="40"> <img src="docs/images/playwright-original.svg" alt="Playwright" width="40" height="40"> <img src="docs/images/gitIco.svg" alt="GitHub Actions" width="40" height="40"> <img src="docs/images/allure2icon.png" alt="Allure Report" width="40" height="40"> <img src="docs/images/allureicon.png" alt="Allure TestOps" width="40" height="40"> <img src="docs/images/telegramIcon.gif" alt="Telegram" width="40" height="40"> 
+<img src="images/jsIcon.gif" alt="JavaScript" width="40" height="40"> <img src="images/playwright-original.svg" alt="Playwright" width="40" height="40"> <img src="images/gitIco.svg" alt="GitHub Actions" width="40" height="40"> <img src="images/allure2icon.png" alt="Allure Report" width="40" height="40"> <img src="images/allureicon.png" alt="Allure TestOps" width="40" height="40"> <img src="images/telegramIcon.gif" alt="Telegram" width="40" height="40"> 
 - **Язык:** JavaScript  
 - **Фреймворк для тестов:** Playwright  
 - **CI/CD:** GitHub Actions  
@@ -80,16 +80,6 @@ npm t
 Запускает Playwright Test Runner в графическом интерфейсе (выбор тестов, наблюдение за прогрессом).
 ```bash
 npm run --ui
-```
-### 🔹 Запуск только API тестов
-Запускает только api.spec.js.
-```bash
-npm run test: api
-```
-### 🔹 Запуск тольуо UI тестов
-Запускает только ui.spec.js.
-```bash
-npm run test:ui
 ```
 ### 🔹 Генерация и просмотр отчетов Playwright
 Открывает встроенный Playwright Reporter.
