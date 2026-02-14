@@ -71,7 +71,7 @@ import { buildChartUrl } from './build-chart-url.js';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dirname, '..');
 
-const SUMMARY_PATH = resolve(ROOT, process.argv[2] || 'allure-report/summary.json');
+const SUMMARY_PATH = resolve(ROOT, process.argv[2] || 'allure-report/widgets/summary.json');
 
 function loadSummary(path) {
   if (!existsSync(path)) {
