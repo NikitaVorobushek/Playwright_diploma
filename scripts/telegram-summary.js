@@ -89,7 +89,7 @@ async function sendPhotoToTelegram(token, chatId, photoUrl, caption) {
     chat_id: chatId,
     photo: photoUrl,
     caption,
-    parse_mode: 'MarkdownV2',
+    parse_mode: 'HTML',
     disable_web_page_preview: true,
   };
   const res = await fetch(url, {
@@ -119,7 +119,7 @@ async function main() {
     comment: process.env.ALLURE_COMMENT,
     reportLink: process.env.ALLURE_REPORT_LINK,
   });
-  console.log(`${caption}`);
+  //console.log(`${caption}`);
   await sendPhotoToTelegram(token, chat, chartUrl, caption);
   console.log('Sent Allure summary with chart to Telegram.');
 }
