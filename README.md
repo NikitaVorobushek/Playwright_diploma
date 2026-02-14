@@ -79,7 +79,7 @@ npm t
 ### 🔹 Запуск тестов в режиме UI (Playwright Test Runner)
 Запускает Playwright Test Runner в графическом интерфейсе (выбор тестов, наблюдение за прогрессом).
 ```bash
-npm run --ui
+npm run ui
 ```
 ### 🔹 Генерация и просмотр отчетов Playwright
 Открывает встроенный Playwright Reporter.
