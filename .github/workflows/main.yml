@@ -25,13 +25,13 @@ jobs:
         run: npx playwright install --with-deps
         
         #очистка старых прогонов и подготовка
-      - name: Clean previous Allure results
-        run: rm -rf allure-results allure-report
-      - uses: allure-framework/setup-allurectl@v1
-        with:
-          allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
-          allure-token: ${{ secrets.ALLURE_TOKEN }}
-          allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
+     # - name: Clean previous Allure results
+       # run: rm -rf allure-results allure-report
+     # - uses: allure-framework/setup-allurectl@v1
+       # with:
+         # allure-endpoint: ${{ secrets.ALLURE_ENDPOINT }}
+         # allure-token: ${{ secrets.ALLURE_TOKEN }}
+         # allure-project-id: ${{ secrets.ALLURE_PROJECT_ID }}
           
         #новый прогон тестов
       - name: Run Playwright tests
@@ -47,21 +47,14 @@ jobs:
       - name: Generate Allure report (single file)
         if: always()
         continue-on-error: true
-        run: npx allure awesome ./allure-results --single-file
+        run: npx allure awesome ./allure-results # --single-file
 
-        #скачивание отчета
-      #- name: Download previous Allure report
-        #uses: actions/download-artifact@v3
-        #with:
-          #name: allure-report
-          #path: ./existing-allure-report
-          
-        #скопировал историю из старого отчета (если есть)
-      #- name: Copy history from old report
-        #run: |
-          #mkdir -p ./allure-results/history || true  
-          #cp -r ./existing-allure-report/history/* ./allure-results/history/ || true
-          
+        #копирую summary.json в нужный путь
+      - name: Copy summary.json to core
+        if: always()
+        continue-on-error: true
+        run: cp allure-report/summary.json allure-report/widgets/summary.json
+  
         #сохраняю артефакты
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v6.0.0
@@ -90,7 +83,7 @@ jobs:
           fi
 
         #сохраняю историю
-      - name: Send test summary to Telegram
+      - name: Send summary.json to Telegram
         if: always()
         continue-on-error: true
         env:
