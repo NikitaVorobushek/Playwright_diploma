@@ -4,6 +4,9 @@ on:
     branches:
       - main
   workflow_dispatch:
+  # Allure TestOps: грю allurectl где результаты на прогоне
+env:
+  ALLURE_RESULTS: allure-results
 jobs:
   pwndv:
     runs-on: ubuntu-latest
@@ -48,6 +51,10 @@ jobs:
           ALLURE_LAUNCH_NAME: "Playwright CI #${{ github.run_number }}"
         run: allurectl upload ./allure-results
         
+      - name: Install Allure CLI (v3)
+        if: always()
+        run: npm install -g allure
+
         #генерация отчета
       - name: Generate Allure report (single file)
         run: npx allure awesome ./allure-results --single-file
@@ -72,23 +79,9 @@ jobs:
         continue-on-error: true
         uses: peaceiris/actions-gh-pages@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.MY_TOKEN }}
           publish_dir: allure-report
           destination_dir: .
-
-        #отправка отчета в телегу
-      - name: Send Allure report to Telegram
-        if: always()
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: |
-          if [ -f allure-report/index.html ]; then
-            curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument" \
-              -F chat_id="${TELEGRAM_CHAT_ID}" \
-              -F document=@allure-report/index.html \
-              -F caption="Allure report (single-file)"
-          fi
 
         # Отправка текстового уведомления в Telegram
       - name: Send test summary to Telegram
@@ -98,3 +91,19 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: node scripts/telegram-summary.js
+
+        #отправка отчета в телегу
+      # - name: Send Allure report to Telegram
+      #  if: always()
+      #  env:
+      #    TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+      #    TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      #  run: |
+      #    if [ -f allure-report/index.html ]; then
+      #      curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendDocument" \
+      #        -F chat_id="${TELEGRAM_CHAT_ID}" \
+      #        -F document=@allure-report/index.html \
+      #        -F caption="Allure report (single-file)"
+      #    fi
+
+

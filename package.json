@@ -8,8 +8,10 @@
     "report": "npx playwright show-report",
     "recorder": "npx playwright codegen",
     "ui": "npx playwright test --ui",
-    "allure": "npx allure awesome ./allure-results --single-file",
-    "deploy-history":"node scripts/telegram-summary.js"
+    "allure:generate": "allure generate allure-results -o allure-report --clean",
+    "allure:serve": "allure serve allure-results",
+    "allure:send": "allure send allure-results --endpoint $ALLURE_ENDPOINT",
+    "allure:telegram": "node scripts/send-allure-to-telegram.js"
   },
   "repository": {
     "type": "git",
