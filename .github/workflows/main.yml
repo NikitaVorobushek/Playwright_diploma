@@ -35,7 +35,7 @@ jobs:
           
         #новый прогон тестов
       - name: Run Playwright tests
-        run: allurectl watch -- npx playwright test
+        run: npx playwright test
         env:
           ALLURE_ENDPOINT: ${{ secrets.ALLURE_ENDPOINT }}
           ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
@@ -47,7 +47,7 @@ jobs:
       - name: Generate Allure report (single file)
         if: always()
         continue-on-error: true
-        run: npx allure awesome ./allure-results # --single-file
+        run: npx allure awesome allure-results # --single-file
 
         #копирую summary.json в нужный путь
       - name: Copy summary.json to core
@@ -83,7 +83,7 @@ jobs:
           fi
 
         #сохраняю историю
-      - name: Send summary.json to Telegram
+      - name: Send summary.json to gh-pages
         if: always()
         continue-on-error: true
         env:
