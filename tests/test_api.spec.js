@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
-import { Appi } from './src/services/appi.service';
-import { TodoBuilder } from './src/helpers/index';
+import { Appi } from '../src/services/appi.service';
+import { TodoBuilder } from '../src/helpers/index';
 
 test.describe('API challenges', () => {
   let request, appi, token, progressData;
@@ -26,7 +26,7 @@ test.describe('API challenges', () => {
     expect(body.challenges.length).toBe(59);
   });
 
-  test("02 Get todos 200oK @API_pozitive", async () => {
+  test("03 Get todos 200oK @API_pozitive", async () => {
     let response = await appi.todosService.get(token);
     let body = await response.json();
       

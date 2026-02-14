@@ -49,16 +49,20 @@ const req = https.request({
   hostname: 'api.telegram.org',
   path: `/bot${token}/sendMessage`,
   method: 'POST',
-  headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'Content-Length': Buffer.byteLength(body) },
+  headers: { 
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Length': Buffer.byteLength(body) 
+  },
 }, (res) => {
-  if (res.statusCode !== 200) {
+  res.on('data', () => {});
+  res.on('end', () => {
     console.error('Telegram API error:', res.statusCode);
-    process.exit(1);
-  }
+    process.exit(0);
+  });
 });
 req.on('error', (e) => {
   console.error('Failed to send Telegram summary:', e.message);
-  process.exit(1);
+  process.exit(0);
 });
 req.write(body);
 req.end();

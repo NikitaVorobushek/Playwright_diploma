@@ -1,5 +1,5 @@
 import { test, expect} from '@playwright/test';
-import { App } from './src/pages/app.page';
+import { App } from '../src/pages/app.page';
 
 const url = 'http://uitestingplayground.com/' // UI tests url
 

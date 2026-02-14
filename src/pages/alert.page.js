@@ -50,7 +50,7 @@ export class AlertPage {
             await this.page.on('dialog', async dialog => {
             let typ = dialog.type();
             let mes = dialog.message();
-            //const dayToday = this.getServerDayNumber();
+
             switch (typ) {
                 case 'alert':
                     await dialog.accept();
