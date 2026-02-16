@@ -56,9 +56,11 @@ function formatDurationMs(ms) {
 function buildCaption(summary, stats, options = {}) {
   const { name, duration, createdAt } = summary;
   const { total, passed, failed, broken, skipped, unknown } = stats;
+  const allureNumber = process.env.ALLURE_PROJECT_ID;
   const project = options.project ?? name ?? 'Allure Report';
   const environment = 'git actions';
   const reportLink = options.reportLink ?? 'https://nikitavorobushek.github.io/Playwright_diploma/';
+  const testOpsLink = `https://allure.autotests.cloud/project/${allureNumber}/launches`;
 
   const pct = (n) => (total > 0 ? ((n / total) * 100).toFixed(1) : '0');
   const lines = [
@@ -78,6 +80,7 @@ function buildCaption(summary, stats, options = {}) {
     `Total skipped: ${skipped}`
   );
   lines.push(`Report: ${reportLink}`);
+  lines.push(`TestOps: ${testOpsLink}`);
   if (createdAt) lines.push(`Run: ${new Date(createdAt).toISOString()}`);
 
   return lines.join('\n');
