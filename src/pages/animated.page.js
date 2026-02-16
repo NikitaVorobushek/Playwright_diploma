@@ -1,5 +1,3 @@
-import { test, expect } from '@playwright/test';
-
 export class AnimatedPage {
 
     constructor (page) {
@@ -14,48 +12,24 @@ export class AnimatedPage {
     }
 
     async clickStartAnimation () {
-        return test.step (`Нажал кнопку Start Animation`, async (step) => {
-            await this.startAnimBtn.click();
-        })        
+        await this.startAnimBtn.click();    
     }
 
     async clickMovingTarget () {
-        return test.step (`Нажал кнопку Moving Target`, async (step) => {
-            await this.movingTargetBtn.click();
-        })        
-    }
-
-    async getStatusOfAnimation () {
-        return test.step (`Проверил совпадение`, async (step) => {
-            await expect(this.opStatus).toHaveText("Moving Target clicked. It's class name is 'btn btn-primary'");
-        })        
+        await this.movingTargetBtn.click();    
     }
 
     async goHome () {
-        return test.step (`Ушел Домой`, async (step) => {
-            await this.homeLink.click();
-        })
+        await this.homeLink.click();
     } 
 
     async checkAnimationStatus () {
-        return test.step (`Проверил статус анимации`, async (step) => {
-            let curStatus;
-            do {
-                curStatus = await this.opStatus.innerText();
-                await new Promise(resolve =>
-                    setTimeout(resolve, 100));
-                } 
-            while (curStatus === 'Animating the button...' || curStatus === '---');
-        })  
-    }
-
-    async goTest () {
-        await this.clickStartAnimation();
-
-        await this.checkAnimationStatus();
-        await this.clickMovingTarget();
-
-        await this.getStatusOfAnimation();
-        await this.goHome();
+        let curStatus;
+        do {
+            curStatus = await this.opStatus.innerText();
+            await new Promise(resolve =>
+                setTimeout(resolve, 100));
+            } 
+        while (curStatus === 'Animating the button...' || curStatus === '---');
     }
 }

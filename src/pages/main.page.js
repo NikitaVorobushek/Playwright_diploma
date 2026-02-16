@@ -1,5 +1,3 @@
-import { test } from '@playwright/test';
-
 export class MainPage {
 
     constructor (page) {
@@ -15,38 +13,26 @@ export class MainPage {
     }
 
     async open (url) {
-        return test.step (`Переход на страницу ${url}`, async (step) => {
-            await this.page.goto(url);
-        })
+        await this.page.goto(url);
     }
 
     async goToProgressBarTest () {
-        return test.step ('Переход к тесту с загрузочной полосой', async (step) => {
-            await this.progressBarLink.click();
-        })
+        await this.progressBarLink.click();
     }
 
     async goToTextInputTest () {
-        return test.step ('Переход к тесту с вводом текста для изменения кнопки', async (step) => {
-            await this.textInputLink.click();
-        })
+        await this.textInputLink.click();
     }
 
     async goToSampleAppTest () {
-        return test.step ('Переход к тесту с простой проверкой авторизации юзера', async (step) => {
-            await this.sampleAppLink.click();
-        })
+        await this.sampleAppLink.click();
     }
 
     async goToAlertsTest () {
-        return test.step ('Переход к тесту с диалоговыми окнами', async (step) => {
-            await this.alertsLink.click();
-        })
+        await this.alertsLink.click();
     }
 
     async goToAnimatedBtnTest () {
-        return test.step ('Переход к тесту с анимированной кнопкой', async (step) => {
-            await this.animatedBtnLink.click();
-        })
+        await this.animatedBtnLink.click();
     }
 }

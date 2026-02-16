@@ -1,6 +1,3 @@
-import { faker } from '@faker-js/faker';
-import { test, expect } from '@playwright/test';
-
 export class AutorizationPage {
 
     constructor(page) {
@@ -17,46 +14,18 @@ export class AutorizationPage {
     }
 
     async fillName (username) {
-        return test.step (`Заполнил Имя`, async (step) => {
-            await this.nameInp.fill(username);
-        })        
+        await this.nameInp.fill(username);    
     }
 
     async fillPass (password) {
-        return test.step (`Заполнил Пароль`, async (step) => {
-            await this.passInp.fill(password);
-        })        
+        await this.passInp.fill(password);      
     }
 
     async tapOnLogIn () {
-        return test.step (`Нажал на кнопку Log In`, async (step) => {
-            await this.logInBtn.click();
-        })        
-    }
-
-    async checkSuccess (username) {
-        return test.step (`Проверил успешность "авторизации"`, async (step) => {
-            await expect(this.status).toContainText(`Welcome, ${username}!`);
-        })        
+        await this.logInBtn.click();     
     }
 
     async goHome () {
-        return test.step (`Ушел Домой`, async (step) => {
-            await this.homeLink.click();
-        })
+        await this.homeLink.click();
     }
-
-    async goTest () {
-        let username = faker.internet.username();
-        let password = 'pwd';
-
-        await this.fillName(username);
-        await this.fillPass(password);
-
-        await this.tapOnLogIn();
-        await this.checkSuccess(username);
-
-        await this.goHome();
-    }
-
 }
