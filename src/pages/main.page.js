@@ -1,38 +1,52 @@
+import { test } from "@playwright/test";
+
 export class MainPage {
 
     constructor (page) {
         this.page = page;
 
-        this.homeLink = page.getByRole('link', {name: 'Home'}).describe('Home button');
+        this.homeLink = page.getByRole('link', {name: 'Home'});
 
-        this.progressBarLink = page.getByRole('link', {name: 'Progress Bar'}).describe('Progress Bar test button');
-        this.textInputLink = page.getByRole('link', {name: 'Text Input'}).describe('Text input test button');
-        this.sampleAppLink = page.getByRole('link', {name: 'Sample App'}).describe('Sample App test button');
-        this.alertsLink = page.getByRole('link', {name: 'Alerts'}).describe('Alerts test button');
-        this.animatedBtnLink = page.getByRole('link', {name: 'Animated Button'}).describe('Animated Button test button');
+        this.progressBarLink = page.getByRole('link', {name: 'Progress Bar'});
+        this.textInputLink = page.getByRole('link', {name: 'Text Input'});
+        this.sampleAppLink = page.getByRole('link', {name: 'Sample App'});
+        this.alertsLink = page.getByRole('link', {name: 'Alerts'});
+        this.animatedBtnLink = page.getByRole('link', {name: 'Animated Button'});
     }
 
-    async open (url) {
-        await this.page.goto(url);
+    async open () {
+        return test.step(`Перешел на ${process.env.BASE_URL}`, async () => {
+            await this.page.goto(process.env.BASE_URL);    
+        })
     }
 
     async goToProgressBarTest () {
-        await this.progressBarLink.click();
+        return test.step(`Перешел в Progress Bar Test`, async () => {
+            await this.progressBarLink.click();   
+        })
     }
 
     async goToTextInputTest () {
-        await this.textInputLink.click();
+        return test.step(`Перешел в Text Input Test`, async () => {
+            await this.textInputLink.click();  
+        })
     }
 
     async goToSampleAppTest () {
-        await this.sampleAppLink.click();
+        return test.step(`Перешел в Sample App Test`, async () => {
+            await this.sampleAppLink.click(); 
+        })
     }
 
     async goToAlertsTest () {
-        await this.alertsLink.click();
+        return test.step(`Перешел в Alerts Test`, async () => {
+            await this.alertsLink.click();  
+        })
     }
 
     async goToAnimatedBtnTest () {
-        await this.animatedBtnLink.click();
+        return test.step(`Перешел в Animated Button Test`, async () => {
+            await this.animatedBtnLink.click();
+        })
     }
 }

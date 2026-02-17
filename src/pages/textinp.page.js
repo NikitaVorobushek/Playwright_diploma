@@ -1,3 +1,5 @@
+import { test, expect } from "@playwright/test";
+
 export class TextInputPage {
     constructor (page) {
         this.page = page;
@@ -8,16 +10,17 @@ export class TextInputPage {
         
         this.inpText = page.getByRole('textbox', {name: 'Set New Button Name'});
     }
-    
-    async clickUpdatingBtn () {
-        await this.updBtn.click();     
-    }
 
-    async fillInInputField (newBtnName) {
-        await this.inpText.fill(newBtnName);      
+    async updButtonName (newBtnName) {
+        return test.step('Ввел новое название кнопки и нажал Update', async () => {
+            await this.inpText.fill(newBtnName);
+            await this.updBtn.click();     
+        })
     }
 
     async goHome () {
-        await this.homeLink.click();
+        return test.step('Ушел Домой', async () => {
+            await this.homeLink.click();    
+        })
     }
 }

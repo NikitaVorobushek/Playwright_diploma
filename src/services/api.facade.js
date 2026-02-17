@@ -1,6 +1,6 @@
 import { ChallengerService, ChallengesService, TodoService, TodosService } from './index'
 
-export class Appi {
+export class Api {
     constructor(request){
         this.request = request;
         this.challengerService = new ChallengerService(request);

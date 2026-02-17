@@ -1,3 +1,5 @@
+import { expect, test } from "@playwright/test"
+
 export class ProgressBarPage {
     constructor (page) {
         this.page = page;
@@ -12,23 +14,47 @@ export class ProgressBarPage {
     }
 
     async clickStartBtn () {
-        await this.startBtn.click();
+        return test.step (`Нажал кнопку Start`, async () => {
+            await this.startBtn.click();
+        })
     }
 
-    async clickStopBtn () {
-        await this.stopBtn.click();
+    clickStopBtn () {
+        return test.step (`Нажал кнопку Stop`, async () => {
+            await this.stopBtn.click();
+        })
     }
 
     async goHome () {
-        await this.homeLink.click();
+        return test.step (`Ушел Домой`, async () => {
+            await this.homeLink.click();
+        })
+    } 
+
+    async checkResult () {
+        return test.step (`Смотрю результат`, async () => {
+            const finish = await this.resultContent.textContent();
+            // ищу числа после "Result:"
+            const resultMatch = finish.match(/Result:\s*([\d.]+)/);
+            // ищу числа после "duration:"
+            const durationMatch = finish.match(/duration:\s*([\d.]+)/);
+
+            const result = resultMatch ? parseFloat(resultMatch[1]) : null;
+            const duration = durationMatch ? parseFloat(durationMatch[1]) : null;
+
+            await expect(this.resultContent).toHaveText(`Result: ${result}, duration: ${duration}`);
+        })
     }
 
     async waitForProgress () {
-        let progressVal = 0;
-        while (progressVal < 75) {
-            const progress = await this.progressBar.innerText();
-            progressVal = parseInt(progress.replace('%', ''));
-            await this.page.waitForTimeout(10);
-        } 
+        return test.step (`Ожидаю значения 75%`, async () => {
+            let progressVal = 0;
+            while (progressVal < 75) {
+                const progress = await this.progressBar.innerText();
+                progressVal = parseInt(progress.replace('%', ''));
+            }
+            //нужен синхрон из-за различной скорости progressbar
+            expect (this.progressBar).toHaveText('75%');
+        })
     }
 }

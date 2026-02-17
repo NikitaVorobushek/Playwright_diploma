@@ -1,4 +1,4 @@
-import {MainPage, ProgressBarPage, AlertPage, TextInputPage, AutorizationPage, AnimatedPage} from './index';
+import {MainPage, ProgressBarPage, AlertPage, TextInputPage, AuthorizationPage, AnimatedPage} from './index';
 
 export class App {
     constructor (page) {
@@ -7,8 +7,8 @@ export class App {
         this.main = new MainPage(page);
         this.progressbar = new ProgressBarPage(page);
         this.alert = new AlertPage(page);
-        this.texinp = new TextInputPage(page);
-        this.autoriz = new AutorizationPage(page);
+        this.textinp = new TextInputPage(page);
+        this.authoriz = new AuthorizationPage(page);
         this.animated = new AnimatedPage(page);
     }
 }

@@ -9,3 +9,4 @@ node_modules/
 allure-report
 .allure
 .DS-Store
+.env

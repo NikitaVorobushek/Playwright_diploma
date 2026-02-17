@@ -1,3 +1,5 @@
+import { expect, test } from "@playwright/test"
+
 export class AnimatedPage {
 
     constructor (page) {
@@ -12,24 +14,26 @@ export class AnimatedPage {
     }
 
     async clickStartAnimation () {
-        await this.startAnimBtn.click();    
+        return test.step (`Нажал кнопку Start Animation`, async () => {
+            await this.startAnimBtn.click();
+        })
     }
 
     async clickMovingTarget () {
-        await this.movingTargetBtn.click();    
+        return test.step (`Нажал кнопку Moving Target`, async () => {
+            await this.movingTargetBtn.click();
+        })   
     }
 
     async goHome () {
-        await this.homeLink.click();
+        return test.step (`Ушел Домой`, async () => {
+            await this.homeLink.click();
+        })
     } 
 
     async checkAnimationStatus () {
-        let curStatus;
-        do {
-            curStatus = await this.opStatus.innerText();
-            await new Promise(resolve =>
-                setTimeout(resolve, 100));
-            } 
-        while (curStatus === 'Animating the button...' || curStatus === '---');
+        return test.step (`Проверил статус анимации`, async () => {
+            await expect(this.opStatus).toHaveText('Animation done');
+        })
     }
 }

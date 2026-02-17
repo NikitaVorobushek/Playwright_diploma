@@ -1,12 +1,11 @@
-let URL = 'https://apichallenges.herokuapp.com/';
-
 export class TodosService {
     constructor(request) {
         this.request = request;
+        this.apiURL = process.env.API_URL;
     }
     
     async get (token, accept = '*/*'){
-        const response = await this.request.get(`${URL}todos`, {
+        const response = await this.request.get(`${this.apiURL}todos`, {
             headers: {
                 "x-challenger": token,
                 "accept": accept,
@@ -16,7 +15,7 @@ export class TodosService {
     }
 
     async getById (token, id = 1) {
-        const response = await this.request.get(`${URL}todos/${id}`, {
+        const response = await this.request.get(`${this.apiURL}todos/${id}`, {
             headers: {
                 "x-challenger": token,
             }
@@ -25,7 +24,7 @@ export class TodosService {
     }
 
     async getByfilter (token, filter = 'id=1') {
-        const response = await this.request.get(`${URL}todos?${filter}`, {
+        const response = await this.request.get(`${this.apiURL}todos?${filter}`, {
             headers: {
                 "x-challenger": token,
             }
@@ -34,7 +33,7 @@ export class TodosService {
     }
 
     async head (token) {
-        const response = await this.request.head(`${URL}todos`, {
+        const response = await this.request.head(`${this.apiURL}todos`, {
             headers: {
                 "x-challenger": token,
             }
@@ -43,7 +42,7 @@ export class TodosService {
     }
 
     async post (token, payload, accept = '*/*', type = 'application/json') {
-        const response = await this.request.post(`${URL}todos`, {
+        const response = await this.request.post(`${this.apiURL}todos`, {
             headers: {
                 "x-challenger": token,
                 "accept": accept,

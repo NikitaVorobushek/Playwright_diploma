@@ -1,154 +1,78 @@
-import { test, expect} from '@playwright/test';
-import { faker } from "@faker-js/faker";
-import { App } from '../src/pages/app.page';
-
-const url = 'http://uitestingplayground.com/' // UI tests url
+import { expect } from '@playwright/test';
+import { test } from '../src/helpers/fixtures/fixture';
+import { UserBuilder } from '../src/helpers/builders/index';
+import 'dotenv/config';
 
 test.describe('UI Tests', () =>{
 
-  test('Alert test', async ({ page }) => {
-    const app = new App(page);
-    await test.step (`Переход на страницу http://uitestingplayground.com/`, async () => {
-      await app.main.open(url);
-    })
+  test('Alert test', async ({ app }) => {
 
-    await test.step (`Переход на страницу Alert test`, async () => {
-      await app.main.goToAlertsTest();
-    })
+    await app.main.open();
 
-    await test.step (`Вычислил день недели, тип и сообщение диалогового окна`, async () => {
-      const dayToday = await app.alert.getServerDayNumber();
-      await app.alert.tryDialog(dayToday);
-    })
-    await test.step (`Нажали кнопку Alert`, async () => {
-      await app.alert.clickAlertBtn();
-    })
-    await test.step (`Нажали кнопку Confirm`, async () => {
-      await app.alert.clickConfirmBtn();
-    })
-    await test.step (`Нажали кнопку Promt`, async () => {
-      await app.alert.clickPromptBtn();
-    })
-    await test.step (`Ушел домой`, async () => {
-      await app.alert.goHome();
-    })
+    await app.main.goToAlertsTest();
+
+    const dayToday = await app.alert.getServerDayNumber();
+    await app.alert.tryDialog(dayToday);
+
+    await app.alert.clickAlertBtn();
+    await app.alert.clickConfirmBtn();
+    await app.alert.clickPromptBtn();
+
+    await app.alert.goHome();
   });
 
-  test('Text input test', async ({ page }) => {
-    const app = new App(page);
-    await test.step (`Переход на страницу http://uitestingplayground.com/`, async () => {
-      await app.main.open(url);
-    })
+  test('Text input test', async ({ app }) => {
+    
+    await app.main.open();
+    await app.main.goToTextInputTest();
 
-    await test.step (`Переход на страницу Text Input test`, async () => {
-      await app.main.goToTextInputTest();
-    })
+    const newBtnName = new UserBuilder().withInputName().build();
 
-    let newBtnName = faker.internet.username();
-
-    await test.step (`Заполнил поле текстом`, async () => {
-      await app.texinp.fillInInputField(newBtnName);
-    })    
-    await test.step (`Нажал кнопку Updating Button`, async () => {
-      await app.texinp.clickUpdatingBtn();
-    })
-    await test.step (`Сверил значения`, async () => {
-      await expect(app.texinp.updBtn).toContainText(newBtnName);  
-    })  
-    await test.step (`Ушел домой`, async () => {
-      await app.texinp.goHome();
-    })
+    await app.textinp.updButtonName(newBtnName.name);
+    await expect(app.textinp.updBtn).toContainText(newBtnName.name);  
+    
+    await app.textinp.goHome();
   })
 
-  test('Simple autorization test', async ({ page }) => {
-    const app = new App(page);
-    await test.step (`Переход на страницу http://uitestingplayground.com/`, async () => {
-      await app.main.open(url);
-    })
+  test('Simple authorization test', async ({ app }) => {
+    
+    await app.main.open();
 
-    await test.step (`Переход на страницу Sample App test`, async () => {
-      await app.main.goToSampleAppTest();
-    })
+    await app.main.goToSampleAppTest();
 
-    let username = faker.internet.username();
-    let password = 'pwd';
+    const user = new UserBuilder().withInputName().withPassword().build();
+    await app.authoriz.makeLogin(user.name, user.password);
+    await expect(app.authoriz.status).toContainText(`Invalid username/password`);
 
-    await test.step (`Заполнил Имя`, async () => {
-      await app.autoriz.fillName(username);
-    }) 
-    await test.step (`Заполнил Пароль`, async () => {
-      await app.autoriz.fillPass(password);
-    }) 
-    await test.step (`Нажал на кнопку Log In`, async () => {
-      await app.autoriz.tapOnLogIn();
-    }) 
-    await test.step (`Проверил успешность "авторизации"`, async () => {
-      await expect(app.autoriz.status).toContainText(`Welcome, ${username}!`);
-    })
-    await test.step (`Ушел домой`, async () => {
-      await app.autoriz.goHome();
-    })
+    await app.authoriz.goHome();
   })
 
-  test('Animated Button test', async ({ page }) => {
-    const app = new App(page);
-    await test.step (`Переход на страницу http://uitestingplayground.com/`, async () => {
-      await app.main.open(url);
-    })
+  test('Animated Button test', async ({ app }) => {
+    
+    await app.main.open();
 
-    await test.step (`Переход на страницу Animated Button test`, async () => {
-      await app.main.goToAnimatedBtnTest();
-    })
-    await test.step (`Нажал кнопку Start Animation`, async () => {
-      await app.animated.clickStartAnimation();
-    })
-    await test.step (`Проверил статус анимации`, async () => {
-      await app.animated.checkAnimationStatus();
-    })
-    await test.step (`Нажал кнопку Moving Target`, async () => {
-      await app.animated.clickMovingTarget();
-    })
-    await test.step (`Проверил совпадение`, async () => {
-      await expect(app.animated.opStatus).toHaveText("Moving Target clicked. It's class name is 'btn btn-primary'");
-    })  
-    await test.step (`Ушел домой`, async () => {
-      await app.animated.goHome();
-    })
+    await app.main.goToAnimatedBtnTest();
+
+    await app.animated.clickStartAnimation();
+    await app.animated.checkAnimationStatus();
+    await app.animated.clickMovingTarget();
+    
+    await expect(app.animated.opStatus).toHaveText("Moving Target clicked. It's class name is 'btn btn-primary'");
+
+    await app.animated.goHome();
   })
 
-  test('Progress Bar test', async ({ page }) => {
-    const app = new App(page);
-    await test.step (`Переход на страницу http://uitestingplayground.com/`, async () => {
-      await app.main.open(url);
-    })
+  test('Progress Bar test', async ({ app }) => {
+    
+    await app.main.open();
 
-    await test.step (`Переход на страницу Progress Bar test`, async () => {
-      await app.main.goToProgressBarTest();
-    })
-    await test.step (`Нажал на Start`, async () => {
-      await app.progressbar.clickStartBtn();
-    })
-    await test.step (`Ожидаю значения 75%`, async () => {
-      await app.progressbar.waitForProgress();
-    })
-    await test.step (`Нажал на Stop`, async () => {
-      await app.progressbar.clickStopBtn();
-    })
-    await test.step (`Проверил результат`, async () => {
-      const finish = await app.progressbar.resultContent.textContent();
-      // ищу числа после "Result:"
-      const resultMatch = finish.match(/Result:\s*([\d.]+)/);
-      // ищу числа после "duration:"
-      const durationMatch = finish.match(/duration:\s*([\d.]+)/);
+    await app.main.goToProgressBarTest();
 
-      const result = resultMatch ? parseFloat(resultMatch[1]) : null;
-      const duration = durationMatch ? parseFloat(durationMatch[1]) : null;
+    await app.progressbar.clickStartBtn();
+    await app.progressbar.waitForProgress();
+    await app.progressbar.clickStopBtn();
+    await app.progressbar.checkResult();
 
-      await expect(app.progressbar.resultContent).toHaveText(`Result: ${result}, duration: ${duration}`);
-    })
-
-    await test.step (`Ушел домой`, async () => {
-      await app.progressbar.goHome();
-    })
+    await app.progressbar.goHome();
   });
 })
