@@ -8,8 +8,8 @@ on:
 env:
   ALLURE_RESULTS: allure-results
   # API и UI
+  BASE_URL: ${{ secrets.BASE_URL }}
   API_URL: ${{ secrets.API_URL }}
-  BASE_URL: ${{ secrets.UI_URL }}
 jobs:
   pwndv:
     runs-on: ubuntu-latest
