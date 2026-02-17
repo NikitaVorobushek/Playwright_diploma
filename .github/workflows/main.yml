@@ -7,6 +7,9 @@ on:
   # Allure TestOps: грю allurectl где результаты на прогоне
 env:
   ALLURE_RESULTS: allure-results
+  # API и UI
+  API_URL: ${{ secrets.API_URL }}
+  BASE_URL: ${{ secrets.UI_URL }}
 jobs:
   pwndv:
     runs-on: ubuntu-latest
