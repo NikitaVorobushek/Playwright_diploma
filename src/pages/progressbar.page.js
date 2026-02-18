@@ -13,26 +13,18 @@ export class ProgressBarPage {
         this.resultContent = page.locator('#result');
     }
 
-    async clickStartBtn () {
-        return test.step (`Нажал кнопку Start`, async () => {
+    async runProgressBarAndStopAt75 () {
+        return test.step ('Начал тест и ожидаю "загрузки" до 75%', async () => {
             await this.startBtn.click();
-        })
-    }
-
-    clickStopBtn () {
-        return test.step (`Нажал кнопку Stop`, async () => {
+            let progressVal = 0;
+            while (progressVal < 75) {
+                const progress = await this.progressBar.innerText();
+                progressVal = parseInt(progress.replace('%', ''));
+            }
+            //нужен синхрон из-за различной скорости progressbar
+            expect (this.progressBar).toHaveText('75%');
             await this.stopBtn.click();
-        })
-    }
-
-    async goHome () {
-        return test.step (`Ушел Домой`, async () => {
-            await this.homeLink.click();
-        })
-    } 
-
-    async checkResult () {
-        return test.step (`Смотрю результат`, async () => {
+            
             const finish = await this.resultContent.textContent();
             // ищу числа после "Result:"
             const resultMatch = finish.match(/Result:\s*([\d.]+)/);
@@ -45,16 +37,10 @@ export class ProgressBarPage {
             await expect(this.resultContent).toHaveText(`Result: ${result}, duration: ${duration}`);
         })
     }
-
-    async waitForProgress () {
-        return test.step (`Ожидаю значения 75%`, async () => {
-            let progressVal = 0;
-            while (progressVal < 75) {
-                const progress = await this.progressBar.innerText();
-                progressVal = parseInt(progress.replace('%', ''));
-            }
-            //нужен синхрон из-за различной скорости progressbar
-            expect (this.progressBar).toHaveText('75%');
+    
+    async goHome () {
+        return test.step (`Ушел Домой`, async () => {
+            await this.homeLink.click();
         })
-    }
+    } 
 }
