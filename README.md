@@ -17,9 +17,10 @@
 ---
 
 ## 🛠 Технологический стек
-<img src="images/jsIcon.gif" alt="JavaScript" width="40" height="40"> <img src="images/playwright-original.svg" alt="Playwright" width="40" height="40"> <img src="images/gitIco.svg" alt="GitHub Actions" width="40" height="40"> <img src="images/allure2icon.png" alt="Allure Report" width="40" height="40"> <img src="images/allureicon.png" alt="Allure TestOps" width="40" height="40"> <img src="images/telegramIcon.gif" alt="Telegram" width="40" height="40"> 
+<img src="images/jsIcon.gif" alt="JavaScript" width="40" height="40"> <img src="images/playwright-original.svg" alt="Playwright" width="40" height="40"> <img src="images/faker.png" alt="Faker.js" width="40" height="40"> <img src="images/gitIco.svg" alt="GitHub Actions" width="40" height="40"> <img src="images/allure2icon.png" alt="Allure Report" width="40" height="40"> <img src="images/allureicon.png" alt="Allure TestOps" width="40" height="40"> <img src="images/telegramIcon.gif" alt="Telegram" width="40" height="40"> 
 - **Язык:** JavaScript  
 - **Фреймворк для тестов:** Playwright  
+- **Генератор случайных значений** Faker.js  
 - **CI/CD:** GitHub Actions  
 - **Отчеты:** Allure Report + Allure TestOps  
 - **Уведомления:** Telegram  
@@ -65,10 +66,11 @@
 
 - После каждого прогона тестов бот отправляет:
   - Текстовую сводку с количеством успешных, упавших и пропущенных тестов
-  - Файл Allure отчёта в формате single-file  
+  - Ссылку на хранение историии запусков в Allure TestOps
+  - Файл Allure отчёта в формате single-file, живущий в ссылке на GitHub Pages 
     ![Пример уведомления Telegram](images/telegram_notification.png)
 - Для работы необходимо настроить:
-  - `TELEGRAM_BOT_TOKEN` и `TELEGRAM_CHAT_ID` в secrets репозитория
+  - `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID` и `ALLURE_PROJECT_ID` в secrets репозитория
 
 ## 🏃‍♂️ Run Guide
 ### 🔹 Запуск всех тестов
