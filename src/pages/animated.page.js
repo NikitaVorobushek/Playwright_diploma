@@ -13,27 +13,17 @@ export class AnimatedPage {
         this.opStatus = page.locator('#opstatus');
     }
 
-    async clickStartAnimation () {
-        return test.step (`Нажал кнопку Start Animation`, async () => {
+    async runAnimationAndClickTarget () {
+        return test.step ('Запуск теста и ожидание окончания анимации', async () => {
             await this.startAnimBtn.click();
-        })
-    }
-
-    async clickMovingTarget () {
-        return test.step (`Нажал кнопку Moving Target`, async () => {
+            await expect(this.opStatus).toHaveText('Animation done');
             await this.movingTargetBtn.click();
-        })   
+        }    
     }
-
+    
     async goHome () {
         return test.step (`Ушел Домой`, async () => {
             await this.homeLink.click();
         })
     } 
-
-    async checkAnimationStatus () {
-        return test.step (`Проверил статус анимации`, async () => {
-            await expect(this.opStatus).toHaveText('Animation done');
-        })
-    }
 }
