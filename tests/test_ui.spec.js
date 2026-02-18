@@ -53,9 +53,7 @@ test.describe('UI Tests', () =>{
 
     await app.main.goToAnimatedBtnTest();
 
-    await app.animated.clickStartAnimation();
-    await app.animated.checkAnimationStatus();
-    await app.animated.clickMovingTarget();
+    await app.animated.runAnimationAndClickTarget();
     
     await expect(app.animated.opStatus).toHaveText("Moving Target clicked. It's class name is 'btn btn-primary'");
 
@@ -68,10 +66,7 @@ test.describe('UI Tests', () =>{
 
     await app.main.goToProgressBarTest();
 
-    await app.progressbar.clickStartBtn();
-    await app.progressbar.waitForProgress();
-    await app.progressbar.clickStopBtn();
-    await app.progressbar.checkResult();
+    await app.progressbar.runProgressBarAndStopAt75();
 
     await app.progressbar.goHome();
   });
