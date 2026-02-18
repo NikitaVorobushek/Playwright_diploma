@@ -10,3 +10,5 @@ allure-report
 .allure
 .DS-Store
 .env
+.idea/
+.vscode/
