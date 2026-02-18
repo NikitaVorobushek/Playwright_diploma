@@ -16,7 +16,7 @@ export class MainPage {
 
     async open () {
         return test.step(`Перешел на ${process.env.BASE_URL}`, async () => {
-            await this.page.goto(process.env.BASE_URL);    
+            await this.page.goto('');    
         })
     }
 
