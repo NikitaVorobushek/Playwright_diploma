@@ -18,7 +18,7 @@ export class AnimatedPage {
             await this.startAnimBtn.click();
             await expect(this.opStatus).toHaveText('Animation done');
             await this.movingTargetBtn.click();
-        }    
+        })
     }
     
     async goHome () {
