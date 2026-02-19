@@ -23,7 +23,7 @@ export class TodosService {
         return response;
     }
 
-    async getByfilter (token, filter = 'id=1') {
+    async getByFilter (token, filter = 'id=1') {
         const response = await this.request.get(`${this.apiURL}todos?${filter}`, {
             headers: {
                 "x-challenger": token,
