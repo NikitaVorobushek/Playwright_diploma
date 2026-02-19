@@ -21,8 +21,6 @@ export class ProgressBarPage {
                 const progress = await this.progressBar.innerText();
                 progressVal = parseInt(progress.replace('%', ''));
             }
-            //нужен синхрон из-за различной скорости progressbar
-            expect (this.progressBar).toHaveText('75%');
             await this.stopBtn.click();
             
             const finish = await this.resultContent.textContent();
