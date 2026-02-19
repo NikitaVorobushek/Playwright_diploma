@@ -1,6 +1,6 @@
 export class ChallengesService {
     constructor (request) {
-        this.request = request;;
+        this.request = request;
         this.apiURL = process.env.API_URL;
     }
     
