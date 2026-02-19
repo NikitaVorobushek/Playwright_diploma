@@ -6,13 +6,13 @@ export class TodoBuilder {
         this.data = {};
     }
 
-	addTitle (lenght = 25) {
-		this.data.title =  faker.string.alpha(lenght);
+	addTitle (length = 25) {
+		this.data.title =  faker.string.alpha(length);
 		return this;
 	}
 
-	addDescription (lenght = 15) {
-		this.data.description = faker.string.alpha(lenght);
+	addDescription (length = 15) {
+		this.data.description = faker.string.alpha(length);
 		return this;
 	}
 
