@@ -68,6 +68,8 @@ test.describe('UI Tests', () =>{
 
     await app.progressbar.runProgressBarAndStopAt75();
 
+    await expect(app.progressbar.progressBar).toHaveText('75%');
+
     await app.progressbar.goHome();
   });
 })
