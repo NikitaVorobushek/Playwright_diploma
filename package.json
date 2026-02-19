@@ -11,7 +11,7 @@
     "allure:generate": "allure generate allure-results -o allure-report --clean",
     "allure:serve": "allure serve allure-results",
     "allure:send": "allure send allure-results --endpoint $ALLURE_ENDPOINT",
-    "allure:telegram": "node scripts/send-allure-to-telegram.js"
+    "allure:telegram": "node scripts/telegram-summary.js"
   },
   "repository": {
     "type": "git",
